@@ -18,17 +18,6 @@ plan:
 apply:
 	terraform apply -auto-approve
 
-destroy:
-	@read -p "Are you sure you want to destroy the Terraform resources? (y/n): " confirm; \
-	if [ "$$confirm" = "y" ]; then \
-		echo "Destroying Terraform resources..."; \
-		docker rm -f cf-tunnel 2>/dev/null || true; \
-		sleep 60; \
-		terraform destroy -auto-approve; \
-	else \
-		echo "Terraform destroy aborted."; \
-	fi
-
 docker-run:
 	@CLOUDFLARED_CMD=$$(terraform output -raw cloudflared_command); \
 	CLOUDFLARED_ARGS=$${CLOUDFLARED_CMD#cloudflared }; \
@@ -50,3 +39,14 @@ apply-run:
 	@echo "Applying Terraform configurations..."
 	terraform apply -auto-approve
 	$(MAKE) docker-run
+
+destroy:
+	@read -p "Are you sure you want to destroy the Terraform resources? (y/n): " confirm; \
+	if [ "$$confirm" = "y" ]; then \
+		echo "Destroying Terraform resources..."; \
+		docker rm -f cf-tunnel 2>/dev/null || true; \
+		sleep 60; \
+		terraform destroy -auto-approve; \
+	else \
+		echo "Terraform destroy aborted."; \
+	fi
