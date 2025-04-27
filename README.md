@@ -107,6 +107,60 @@ This will:
 3. Wait for resources to clean up (60 seconds)
 4. Destroy the Terraform-managed resources
 
+## GitHub Workflows
+
+This project includes GitHub Actions workflows to automate Terraform operations:
+
+### Terraform Apply Workflow
+
+The project includes a GitHub Actions workflow for applying Terraform changes automatically:
+
+```yaml
+# .github/workflows/terraform-apply.yml
+name: Terraform Apply
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#APPLY')
+```
+
+To trigger this workflow:
+1. Commit your changes with a message containing `#APPLY`
+2. Push to the main branch
+3. The workflow will automatically initialize Terraform and apply changes
+
+### Terraform Destroy Workflow
+
+There's also a workflow for destroying the infrastructure:
+
+```yaml
+# .github/workflows/terraform-destroy.yml
+name: Terraform Destroy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#DESTROY')
+```
+
+To trigger infrastructure destruction:
+1. Commit any change with a message containing `#DESTROY`
+2. Push to the main branch
+3. The workflow will automatically initialize Terraform and destroy all resources
+
+**Note:** Be cautious when using the destroy workflow as it will remove all resources without confirmation.
+
 ## Architecture
 
 The project uses:

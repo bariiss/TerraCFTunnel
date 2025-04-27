@@ -1,0 +1,26 @@
+name: Terraform Destroy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#DESTROY')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Initialize Terraform
+        run: terraform init
+      
+      - name: Destroy Terraform
+        run: terraform destroy -auto-approve
