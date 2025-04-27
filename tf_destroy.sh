@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
 read -p "Are you sure you want to destroy the Terraform resources? (y/n): " confirm
 if [ "$confirm" = "y" ]; then
   echo "Destroying Terraform resources..."
