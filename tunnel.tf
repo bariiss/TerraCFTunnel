@@ -4,5 +4,5 @@ resource "random_id" "secret" {
 
 resource "cloudflare_zero_trust_tunnel_cloudflared" "main" {
   account_id = var.account_id
-  name       = "terraform-tunnel"
+  name       = var.tunnel_name
 }
