@@ -38,7 +38,29 @@ Without these permissions, the Terraform provider won't be able to create and ma
    cd TerraCFTunnel
    ```
 
-2. Configure your Terraform variables as needed (check the Terraform files for required variables)
+2. Configure your Terraform variables by editing the `services.auto.tfvars` file:
+   ```
+   # Example services.auto.tfvars
+   tunnel_name = "your-tunnel-name"
+   account_id = "your-cloudflare-account-id"
+   api_token = "your-cloudflare-api-token"
+
+   services = {
+     service1 = { 
+       hostname = "service1.yourdomain.com",
+       target = "http://localhost:8080",
+       zone_id = "your-cloudflare-zone-id"
+     },
+     # Add more services as needed
+   }
+   ```
+
+   You must update:
+   - `tunnel_name`: A name for your Cloudflare tunnel
+   - `account_id`: Your Cloudflare account ID (found in the Cloudflare dashboard URL)
+   - `api_token`: Your Cloudflare API token with proper permissions
+   - `services`: The services you want to expose through the tunnel
+     - Each service needs a hostname (DNS record), target (local service address), and zone_id (Cloudflare zone ID for the domain)
 
 3. Use the provided Makefile commands to manage your infrastructure
 
