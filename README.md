@@ -15,12 +15,26 @@ TerraCFTunnel allows you to provision Cloudflare Tunnels using Terraform and aut
 - Docker
 - Terraform (>= 0.14.0)
 - Cloudflare account with access to create tunnels
+- Cloudflare API token with the required permissions
+
+### Cloudflare API Token Permissions
+
+To use this project, you need to create a Cloudflare API token with the following permissions:
+
+1. Go to the Cloudflare dashboard and navigate to "My Profile" → "API Tokens"
+2. Click "Create Token" → "Custom Permissions"
+3. Add the following permissions:
+   - **Account** → **Cloudflare Tunnel**: Edit
+   - **Account** → **Access: Apps and Policies**: Edit (Required for Zero Trust UI)
+   - **Zone** → **DNS**: Edit
+
+Without these permissions, the Terraform provider won't be able to create and manage tunnels properly.
 
 ## Getting Started
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/TerraCFTunnel.git
+   git clone https://github.com/bariiss/TerraCFTunnel.git
    cd TerraCFTunnel
    ```
 
