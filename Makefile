@@ -5,9 +5,9 @@ help:
 	@echo "  make init       - Initialize Terraform"
 	@echo "  make plan       - Plan Terraform changes"
 	@echo "  make apply      - Apply Terraform changes"
-	@echo "  make destroy    - Destroy Terraform resources (with confirmation)"
 	@echo "  make docker-run - Run the CF tunnel in Docker"
 	@echo "  make apply-run  - Apply Terraform changes and start the CF tunnel"
+	@echo "  make destroy    - Destroy Terraform resources (with confirmation)"
 
 init:
 	terraform init
