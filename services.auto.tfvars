@@ -1,6 +1,6 @@
-tunnel_name = "terraform-tunnel"
-account_id = "your_account_id_here"
-api_token = "your_api_token_here"
+tunnel_name = "terraform-tunnel" # Replace with your actual tunnel name
+account_id = "your_account_id_here" # Replace with your actual account ID
+api_token = "your_api_token_here" # Replace with your actual API token
 
 services = {
   example = {
