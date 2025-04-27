@@ -50,7 +50,7 @@ Without these permissions, the Terraform provider won't be able to create and ma
        hostname = "service1.yourdomain.com",
        target = "http://localhost:8080",
        zone_id = "your-cloudflare-zone-id"
-     },
+     }
      # Add more services as needed
    }
    ```
