@@ -32,6 +32,23 @@ To use this project, you need to create a Cloudflare API token with the followin
 
 ## 🚀 Getting Started
 
+### 🍴 Fork and Use for Your Own Projects
+
+This project is designed to be easily forked and used for your own purposes! Just follow these steps:
+
+1. Fork this repository on GitHub by clicking the "Fork" button at the top right of the repository page
+2. Clone your forked repository to your local machine:
+   ```
+   git clone https://github.com/YOUR_USERNAME/TerraCFTunnel.git
+   cd TerraCFTunnel
+   ```
+3. Update the `services.auto.tfvars` file with your own configuration values (see below)
+4. Use the Makefile commands to deploy your own tunnels
+
+This template is production-ready and can be used "as-is" by simply configuring your own variables.
+
+### 🔧 Local Setup
+
 1. Clone this repository:
    ```
    git clone https://github.com/bariiss/TerraCFTunnel.git
