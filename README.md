@@ -1,91 +1,92 @@
 # TerraCFTunnel
 
-A Terraform project for automating the deployment and management of Cloudflare Tunnels.
+A project that uses Terraform to provision and manage Cloudflare Tunnels through Infrastructure as Code.
 
 ## Overview
 
-TerraCFTunnel provides Infrastructure as Code (IaC) capabilities for creating and managing Cloudflare Tunnels, allowing you to securely expose local services to the internet without opening ports in your firewall.
+TerraCFTunnel allows you to provision Cloudflare Tunnels using Terraform and automatically deploy them as Docker containers. This approach provides:
 
-## Features
-
-- Automated creation and configuration of Cloudflare Tunnels
-- DNS record management for tunnel services
-- Multi-service support with a single tunnel
-- Secure handling of credentials and tokens
+- **Infrastructure as Code**: Use Terraform to declare and manage your Cloudflare Tunnel configurations
+- **Reproducibility**: Easily recreate your tunnels with consistent configuration
+- **Docker Integration**: Run your tunnels in Docker containers for better isolation and management
 
 ## Prerequisites
 
-- Terraform v1.0.0+
-- Cloudflare account
-- Cloudflare API token with the required permissions
-- `cloudflared` CLI (for running tunnels locally)
+- Docker
+- Terraform (>= 0.14.0)
+- Cloudflare account with access to create tunnels
 
-## Quick Start
+## Getting Started
 
-1. Clone this repository
-2. Update the `services.auto.tfvars` file with your Cloudflare account details and service configurations
-3. Initialize Terraform:
+1. Clone this repository:
    ```
-   terraform init
-   ```
-4. Plan your deployment:
-   ```
-   terraform plan
-   ```
-5. Apply the configuration:
-   ```
-   terraform apply
-   ```
-6. Run the tunnel:
-   ```
-   ./tf_apply_run.sh
+   git clone https://github.com/yourusername/TerraCFTunnel.git
+   cd TerraCFTunnel
    ```
 
-## Configuration
+2. Configure your Terraform variables as needed (check the Terraform files for required variables)
 
-### Required Variables
+3. Use the provided Makefile commands to manage your infrastructure
 
-- `account_id`: Your Cloudflare account ID
-- `api_token`: Your Cloudflare API token
-- `tunnel_name`: The name for your Cloudflare tunnel
-- `services`: A map of services to expose through the tunnel
+## Available Commands
 
-### Service Configuration
-
-Each service requires:
-- `hostname`: The hostname to use for the service
-- `target`: The local address of the service (e.g., http://localhost:8080)
-- `zone_id`: The Cloudflare Zone ID for the domain
-
-Example configuration in `services.auto.tfvars`:
-
-```hcl
-tunnel_name = "terraform-tunnel"
-account_id = "your-cloudflare-account-id"
-api_token = "your-cloudflare-api-token"
-
-services = {
-  web_app = { 
-    hostname = "app.example.com",
-    target = "http://localhost:8080",
-    zone_id = "your-cloudflare-zone-id"
-  }
-}
-```
-
-## Cleanup
-
-To destroy all resources created by Terraform:
+This project includes a Makefile to simplify common operations:
 
 ```
-./tf_destroy.sh
+make init       - Initialize Terraform
+make plan       - Plan Terraform changes
+make apply      - Apply Terraform changes
+make destroy    - Destroy Terraform resources (with confirmation)
+make docker-run - Run the Cloudflare tunnel in Docker
+make apply-run  - Apply Terraform changes and start the Cloudflare tunnel
 ```
 
-## Security Notes
+## Workflow
 
-- The `services.auto.tfvars` file contains sensitive information. Keep it secure and never commit it to public repositories.
-- Consider using environment variables or a secrets manager for production deployments.
+### Provisioning and Starting a Tunnel
 
-## License
+To provision infrastructure and start a tunnel:
 
-MIT
+```
+make apply-run
+```
+
+This will:
+1. Initialize Terraform
+2. Apply the Terraform configuration
+3. Retrieve the Cloudflare tunnel command from Terraform outputs
+4. Start a Docker container running the Cloudflare tunnel
+
+### Destroying Resources
+
+To destroy the infrastructure:
+
+```
+make destroy
+```
+
+This will:
+1. Prompt for confirmation
+2. Remove the running Docker container
+3. Wait for resources to clean up (60 seconds)
+4. Destroy the Terraform-managed resources
+
+## Architecture
+
+The project uses:
+- **Terraform**: To provision and manage Cloudflare tunnel resources
+- **Docker**: To run the Cloudflare tunnel client (cloudflared) in a container
+- **Makefile**: To simplify and standardize operations
+
+The Terraform configuration outputs the necessary cloudflared command that's automatically used when starting the Docker container.
+
+## Troubleshooting
+
+If the tunnel doesn't start correctly:
+1. Check the Docker container logs: `docker logs cf-tunnel`
+2. Verify your Terraform configuration and outputs
+3. Ensure your Cloudflare credentials are properly configured
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
